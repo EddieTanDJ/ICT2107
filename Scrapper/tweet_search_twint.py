@@ -24,9 +24,11 @@ def configuration():
     c = twint.Config()
     c.Store_object = True
     c.Pandas =True
-    c.Search = ['#cb', '#sg']
-    c.Limit = 1000
-    c.lanagaue = "en"
+    c.Search = ['#cb' , '#sg']
+    c.Limit = 10000
+    c.Since = "2020-02-01"
+    c.Until = "2020-02-28"
+    c.Langague = "en"
     return c
 
 # Run search
@@ -46,7 +48,7 @@ tweets = twint.storage.panda.Tweets_df.drop_duplicates(subset=['id'])
 # Clean data
 tweets = tweets.dropna(subset=['tweet'])
 
-# Remove Unineccessary data
+# Remove Unnecssary data
 tweets = tweets.drop(columns=['id', 'conversation_id', 'translate','trans_src','trans_dest'])
 
 # Reindex
