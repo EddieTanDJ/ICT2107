@@ -4,12 +4,13 @@ import datetime as dt            #library for date management
 import pandas as pd                      #library for data manipulation
 import html
 
-
-
+""" 
+This will be using PushShiftAPI to scrap the reddit data
+"""
 api = PushshiftAPI()
 
 """ 
-Data Crawler for subreddit posts
+Data Crawler for subreddit posts 
 """
 def data_prep_posts(title, subreddit, start_time, end_time, filters, limit):
     if(len(filters) == 0):
@@ -52,7 +53,7 @@ def main():
     title = "lockdown"   #Title of the post we are auditing
     start_time = int(dt.datetime(2020, 3, 24).timestamp())  
                                      #Starting date for our search
-    end_time = int(dt.datetime(2020,4,30).timestamp())   
+    end_time = int(dt.datetime(2020,4, 30).timestamp())   
                                      #Ending date for our search
     filters = []                     #We don´t want specific filters
     limit = 1000000                    #Elelemts we want to recieve
@@ -73,12 +74,20 @@ def main():
     df = df.drop(columns=['d_'])
     df = df.drop(columns=['created'])
     df = df.drop(columns=['permalink'])
+    df = df.drop(columns=['author'])
+    df = df.drop(columns=['datetime'])
+    # Re index columns : ID , body
     print(df.columns)
+    column = ['id', 'body']
+    df = df.reindex(columns=column)
+    print(df.columns)
+    print(df.head(5))
+    print(df)
     # Remove special character in df
     df['body'] = df['body'].apply(lambda x: html.unescape(x))
     # Save data to csv
     df.to_csv(f'dataset_comments_lockdown_sg.csv', sep=';', # Save the dataset on a csv file for future analysis
-            header=True, index=False, columns=['author','body','id','datetime'])
+            header=True, index=False, columns=['id','body'])
 
 if __name__== "__main__" :
     main()

@@ -5,6 +5,7 @@ import pandas as pd
 from praw.models import MoreComments
 # API key
 # reddit = praw.Reddit(client_id='<YOUR CLIENT ID>', client_secret='<YOUR CLIENT SECRET>', user_agent='<YOUR USER AGENT>')
+# To find your user agent, go to https://www.reddit.com/prefs/apps/
 reddit = praw.Reddit(client_id='OEgaclvEQSIiULMThSZuaA', client_secret='16rsNJVn8Bagu8rKJKoGJ-T0bLLZRw', user_agent='Covid Scrapper')
 
 
@@ -31,18 +32,18 @@ def searchComments(links):
     
     
     
-links = ["https://www.reddit.com/r/singapore/comments/gy1wsa/a_rant_on_govts_handling_of_cb_that_i_dont_think/" ,
-         "https://www.reddit.com/r/singapore/comments/fvq6io/covid19_predictions_expect_a_sharp_rise_in_cases/" ,
-         'https://www.reddit.com/r/singapore/comments/gmnaav/singapore_to_exit_circuit_breaker_on_jun_1/',
-         'https://www.reddit.com/r/singapore/comments/g5c007/covid19_circuit_breaker_to_be_extended_by_one/',
-         'https://www.reddit.com/r/singapore/comments/fv83dd/rsingapore_april_covid19_and_circuit_breaker/',
-         'https://www.reddit.com/r/singapore/comments/g5c645/how_are_you_guys_feeling_with_the_extension_of/',
-         'https://www.reddit.com/r/singapore/comments/gzemxz/the_thing_that_bugs_me_the_most_about_circuit/' ,
-         'https://www.reddit.com/r/singapore/comments/ge2858/what_is_one_thing_you_learned_about_yourself/',
-         'https://www.reddit.com/r/singapore/comments/fxrhe1/coronavirus_stadiums_to_close_circuitbreaker/',
-         'https://www.reddit.com/r/singapore/comments/g2bomm/youth_dances_on_lorong_halus_bridge_says_f_the/'
+links = ["https://www.reddit.com/r/singapore/comments/tq3kf7/will_people_go_maskoff_outdoors_when_new_covid19/" ,
+         "https://www.reddit.com/r/singapore/comments/tqroxy/many_in_singapore_still_donning_masks_outdoors_on/" ,
+         'https://www.reddit.com/r/singapore/comments/tniw9g/will_you_wear_a_mask_outside_after_29th_march_why/',
+         'https://www.reddit.com/r/singapore/comments/tng1dx/ministry_of_transport_maskwearing_requirement/',
+         'https://www.reddit.com/r/singapore/comments/tlytr0/mask_onoff_guidelines_listed_on_the_straits_times/',
+         'https://www.reddit.com/r/singapore/comments/tlwbez/group_sizes_to_double_to_10_masks_optional_when/',
+         'https://www.reddit.com/r/singapore/comments/tdws0b/mask_never_mbs_badge_lady_seen_unmasked_at_jewel/',
+         'https://www.reddit.com/r/singapore/comments/tgy88n/authorities_investigating_badge_lady_who_was/',
+         'https://www.reddit.com/r/singapore/comments/tebrnk/streamlined_covid19_measures_begin_from/',
+         'https://www.reddit.com/r/singapore/comments/t9eoty/badge_lady_allegedly_spotted_walking_around/'
          ]
 
 df = searchComments(links)
 #Save data to csv
-df.to_csv(f'dataset_lockdown_comments_sg_1.csv', sep=';' , header=True, index=False, columns=['id','comments'])
+df.to_csv(f'dataset_mask_comments.csv', sep=';' , header=True, index=False, columns=['id','comments'])
