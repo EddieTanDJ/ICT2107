@@ -14,6 +14,7 @@ Search for all comments in a subreddit links using reddit API
 """
 def searchComments(links):
     id_list = []
+    url_list = []
     comments_list = []
     for link in links:
         submission = reddit.submission(url = link)
@@ -23,15 +24,14 @@ def searchComments(links):
             if isinstance(comment, MoreComments):
                 continue
             id_list.append(submission.id)
+            url_list.append(link)
             comments_list.append(comment.body)
     #Remove deleted and remove post
-    data = pd.DataFrame(data=zip(id_list, comments_list),columns=["id","comments"])
+    data = pd.DataFrame(data=zip(id_list,url_list, comments_list),columns=["id", "url" ,"comments"])
     indexNames = data[(data.comments == '[removed]') | (data.comments == '[deleted]')].index
     data.drop(indexNames, inplace=True)
     return data
-    
-    
-    
+
 links = ["https://www.reddit.com/r/singapore/comments/tq3kf7/will_people_go_maskoff_outdoors_when_new_covid19/" ,
          "https://www.reddit.com/r/singapore/comments/tqroxy/many_in_singapore_still_donning_masks_outdoors_on/" ,
          'https://www.reddit.com/r/singapore/comments/tniw9g/will_you_wear_a_mask_outside_after_29th_march_why/',
@@ -41,9 +41,10 @@ links = ["https://www.reddit.com/r/singapore/comments/tq3kf7/will_people_go_mask
          'https://www.reddit.com/r/singapore/comments/tdws0b/mask_never_mbs_badge_lady_seen_unmasked_at_jewel/',
          'https://www.reddit.com/r/singapore/comments/tgy88n/authorities_investigating_badge_lady_who_was/',
          'https://www.reddit.com/r/singapore/comments/tebrnk/streamlined_covid19_measures_begin_from/',
-         'https://www.reddit.com/r/singapore/comments/t9eoty/badge_lady_allegedly_spotted_walking_around/'
-         ]
-
+         'https://www.reddit.com/r/singapore/comments/t9eoty/badge_lady_allegedly_spotted_walking_around/',
+         'https://www.reddit.com/r/singapore/comments/ttoo3o/even_after_singapore_lifts_restrictions_residents/',
+         'https://www.reddit.com/r/singapore/comments/tqv9iq/surreal_and_freeing_singapore_residents_on/']
+        
 df = searchComments(links)
 #Save data to csv
-df.to_csv(f'dataset_mask_comments.csv', sep=';' , header=True, index=False, columns=['id','comments'])
+df.to_csv(f'dataset_mask_comments.csv', sep=';' , header=True, index=False, columns=['id','url','comments'])

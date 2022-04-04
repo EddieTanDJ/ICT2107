@@ -4,14 +4,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Hashtable;
 
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class SentimentMapper extends Mapper<LongWritable, Text, Text, Text> {
+public class SentimentMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
      Hashtable<String, String> AFINN_map = new Hashtable<String, String>();
 
-    public void setup(Mapper<LongWritable, Text, Text, Text>.Context context) throws IOException {
+    public void setup(Mapper<LongWritable, Text, Text, IntWritable>.Context context) throws IOException {
         // get the list of files from DistributedCache
         BufferedReader br = new BufferedReader(new FileReader("AFINN-en-165.txt"));
         String line = null;
@@ -24,7 +25,7 @@ public class SentimentMapper extends Mapper<LongWritable, Text, Text, Text> {
     }
 
     @Override
-    public void map(LongWritable key, Text value,  Mapper<LongWritable, Text, Text, Text>.Context context) throws IOException, InterruptedException {
+    public void map(LongWritable key, Text value,  Mapper<LongWritable, Text, Text, IntWritable>.Context context) throws IOException, InterruptedException {
         String parts[] = value.toString().split(";");
         // Get the comments
         String comments = parts[1];
@@ -32,6 +33,7 @@ public class SentimentMapper extends Mapper<LongWritable, Text, Text, Text> {
         String words[] = comments.split(" ");
         int sentiment_sum = 0;
         for (String word : words) {
+        	// Remove Punctuation in words
         	word = word.replaceAll("[^A-Za-z0-9]","");
             if (AFINN_map.get(word) != null) {
                 Integer x = new Integer(AFINN_map.get(word));
@@ -39,7 +41,7 @@ public class SentimentMapper extends Mapper<LongWritable, Text, Text, Text> {
             }
         }
         // Emit the tweet and its sentiment score
-        context.write(new Text(comments), new Text(Integer.toString(sentiment_sum)));
+        System.out.println(sentiment_sum);
+        context.write(new Text(comments), new IntWritable(sentiment_sum));
     }
-
 }

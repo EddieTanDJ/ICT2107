@@ -3,6 +3,7 @@ import java.net.URI;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
@@ -16,7 +17,6 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 public class SentimentAnalysis {
 	public static void main(String[] args) throws Exception {
-		System.out.println("HIT");
 		Configuration conf = new Configuration();
         Job job = Job.getInstance(conf, "SentimentAnalysis");
         job.setJarByClass(SentimentAnalysis.class);
@@ -25,17 +25,18 @@ public class SentimentAnalysis {
         outPath.getFileSystem(conf).delete(outPath, true);
         job.addCacheFile(new URI("hdfs://localhost:9000/user/phamvanvung/project/AFINN-en-165.txt"));
         Configuration validationConf = new Configuration(false);
-        ChainMapper.addMapper(job, SentimentValidationMapper.class, LongWritable.class, Text.class, LongWritable.class, Text.class, validationConf);
+        ChainMapper.addMapper(job, SentimentValidationMapper.class, LongWritable.class, Text.class,
+        		LongWritable.class, Text.class, validationConf);
 
         Configuration ansConf = new Configuration(false);
         ChainMapper.addMapper(job, SentimentMapper.class, LongWritable.class, Text.class,
-                Text.class, Text.class, ansConf);
+                Text.class, IntWritable.class, ansConf);
         job.setMapperClass(ChainMapper.class);
         // job.setCombinerClass(SentimentReducer.class);
         job.setReducerClass(SentimentReducer.class);
-        job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(Text.class);
-        job.setOutputKeyClass(NullWritable.class);
+//        job.setMapOutputKeyClass(Text.class);
+//        job.setMapOutputValueClass(IntWritable.class);
+        job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
         job.setInputFormatClass(TextInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
