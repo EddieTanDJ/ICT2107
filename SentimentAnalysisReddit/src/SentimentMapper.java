@@ -28,7 +28,7 @@ public class SentimentMapper extends Mapper<LongWritable, Text, Text, IntWritabl
     public void map(LongWritable key, Text value,  Mapper<LongWritable, Text, Text, IntWritable>.Context context) throws IOException, InterruptedException {
         String parts[] = value.toString().split(";");
         // Get the comments
-        String comments = parts[1];
+        String comments = parts[2];
         // Get each word in the comments
         String words[] = comments.split(" ");
         int sentiment_sum = 0;

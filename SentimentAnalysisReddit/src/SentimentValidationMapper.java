@@ -22,7 +22,7 @@ public class SentimentValidationMapper extends Mapper<LongWritable, Text, LongWr
      */
     private boolean isValid(String line){
         String[] parts = line.split(";");
-        if (parts.length == 2) {
+        if (parts.length == 3) {
             return true;
         } else {
             return false;
