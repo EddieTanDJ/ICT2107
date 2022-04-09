@@ -6,6 +6,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 public class SentimentValidationMapper extends Mapper<LongWritable, Text, LongWritable, Text>  {
+
     @Override
     protected void map(LongWritable key, Text value, Mapper<LongWritable, Text,
             LongWritable, Text>.Context context) throws IOException, InterruptedException {
@@ -18,7 +19,7 @@ public class SentimentValidationMapper extends Mapper<LongWritable, Text, LongWr
     /**
      * Checking the input line is valid or not
      * @param line
-     * @return
+     * @return boolean
      */
     private boolean isValid(String line){
         String[] parts = line.split(",");
@@ -28,4 +29,5 @@ public class SentimentValidationMapper extends Mapper<LongWritable, Text, LongWr
             return false;
         }
     }
+
 }

@@ -3,7 +3,6 @@ import java.net.URI;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -22,19 +21,18 @@ public class SentimentAnalysis {
         Path inPath = new Path("hdfs://localhost:9000/user/phamvanvung/project/input/");
         Path outPath = new Path("hdfs://localhost:9000/user/phamvanvung/project/output/");
         outPath.getFileSystem(conf).delete(outPath, true);
-        job.addCacheFile(new URI("hdfs://localhost:9000/user/phamvanvung/project/references/AFINN-en-165.txt"));
+        job.addCacheFile(new URI("hdfs://localhost:9000/user/phamvanvung/project/references/Emotion.txt"));
         Configuration validationConf = new Configuration(false);
         ChainMapper.addMapper(job, SentimentValidationMapper.class, LongWritable.class, Text.class,
         		LongWritable.class, Text.class, validationConf);
-
         Configuration ansConf = new Configuration(false);
         ChainMapper.addMapper(job, SentimentMapper.class, LongWritable.class, Text.class,
-                Text.class, IntWritable.class, ansConf);
-        job.setMapperClass(ChainMapper.class);
+                Text.class, Text.class, ansConf);
+        job.setMapperClass(ChainMapper.class); 
         // job.setCombinerClass(SentimentReducer.class);
         job.setReducerClass(SentimentReducer.class);
         job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(IntWritable.class);
+        job.setMapOutputValueClass(Text.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
         job.setInputFormatClass(TextInputFormat.class);
