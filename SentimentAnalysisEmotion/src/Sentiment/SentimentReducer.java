@@ -38,54 +38,53 @@ public class SentimentReducer extends Reducer<Text, Text, Text, Text> {
             if (value.equals("anger")) {
                 angerCount++;
                 emotion.put(value, emotion.get(value) + angerCount);
-                System.out.println("angerCount: " + angerCount);
+                //System.out.println("angerCount: " + angerCount);
             }
             else if (value.equals("anticipation")) {
                 anticipationCount++;
                 emotion.put(value, emotion.get(value) + anticipationCount);
-                System.out.println("anticipationCount: " + anticipationCount);
+                //System.out.println("anticipationCount: " + anticipationCount);
             }
             else if (value.equals("disgust")) {
                 disgustCount++;
                 emotion.put(value, emotion.get(value) + disgustCount);
-                System.out.println("disgustCount: " + disgustCount);
+               // System.out.println("disgustCount: " + disgustCount);
             }
             else if (value.equals("fear")) {
                 fearCount++;
                 emotion.put(value, emotion.get(value) + fearCount);
-                System.out.println("fearCount: " + fearCount);
+                // System.out.println("fearCount: " + fearCount);
             }
             else if (value.equals("joy")) {
                 joyCount++;
                 emotion.put(value, emotion.get(value) + joyCount);
-                System.out.println("joyCount: " + joyCount);
+                // System.out.println("joyCount: " + joyCount);
             }
             else if (value.equals("negative")) {
                 negativeCount++;
                 emotion.put(value, emotion.get(value) + negativeCount);
-                System.out.println("negativeCount: " + negativeCount);
+                // System.out.println("negativeCount: " + negativeCount);
             }
             else if (value.equals("positive")) {
                 positiveCount++;
                 emotion.put(value, emotion.get(value) + positiveCount);
-                System.out.println("positiveCount: " + positiveCount);
+                // System.out.println("positiveCount: " + positiveCount);
             }
             else if (value.equals("sadness")) {
                 sadnessCount++;
                 emotion.put(value, emotion.get(value) + sadnessCount);
-                System.out.println("sadnessCount: " + sadnessCount);
+                // System.out.println("sadnessCount: " + sadnessCount);
             }
             else if (value.equals("trust")) {
                 trustCount++;
                 emotion.put(value, emotion.get(value) + trustCount);
-                System.out.println("trustCount: " + trustCount);
+                // System.out.println("trustCount: " + trustCount);
             }
             else {
-                System.out.println("Error: " + value);
+                // System.out.println("Error: " + value);
             }
             int max = 0;
             String maxKey = "";
-           	System.out.println(emotion.keySet());
             for (String data : emotion.keySet()) {
                 if (emotion.get(data) > max) {
                 	System.out.println(data);
@@ -94,6 +93,7 @@ public class SentimentReducer extends Reducer<Text, Text, Text, Text> {
                 }
             }
             // Write the result to the output file
+            System.out.println(key + " " + maxKey);
      		context.write(key,  new Text(maxKey));
      		// Reset counter
      	    angerCount = 0;

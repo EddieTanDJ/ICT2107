@@ -26,7 +26,7 @@ public class SentimentMapper extends Mapper<LongWritable, Text, Text, IntWritabl
 
     @Override
     public void map(LongWritable key, Text value,  Mapper<LongWritable, Text, Text, IntWritable>.Context context) throws IOException, InterruptedException {
-        String parts[] = value.toString().split(",");
+        String parts[] = value.toString().split(";");
         // Get the comments
         String comments = parts[6];
         // Get each word in the comments

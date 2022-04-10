@@ -19,8 +19,9 @@ public class SentimentAnalysis {
 		Configuration conf = new Configuration();
         Job job = Job.getInstance(conf, "SentimentAnalysis");
         job.setJarByClass(SentimentAnalysis.class);
-        Path inPath = new Path("hdfs://localhost:9000/user/phamvanvung/project/input/");
-        Path outPath = new Path("hdfs://localhost:9000/user/phamvanvung/project/output/");
+        
+        Path inPath = new Path("hdfs://localhost:9000/user/phamvanvung/project/input/mask/india");
+        Path outPath = new Path("hdfs://localhost:9000/user/phamvanvung/project/output/sent/mask/india");
         outPath.getFileSystem(conf).delete(outPath, true);
         job.addCacheFile(new URI("hdfs://localhost:9000/user/phamvanvung/project/references/AFINN-en-165.txt"));
         Configuration validationConf = new Configuration(false);

@@ -29,7 +29,7 @@ public class SentimentMapper extends Mapper<LongWritable, Text, Text, Text> {
 
     @Override
     public void map(LongWritable key, Text value,  Mapper<LongWritable, Text, Text, Text>.Context context) throws IOException, InterruptedException {
-        String parts[] = value.toString().split(",");
+        String parts[] = value.toString().split(";");
         // Get the comments
         String comments = parts[6];
         // Get each word in the comments
@@ -39,12 +39,11 @@ public class SentimentMapper extends Mapper<LongWritable, Text, Text, Text> {
         	word = word.replaceAll("[^A-Za-z0-9]","");
             if (EMOTION_MAP.get(word) != null) {
                 String x = EMOTION_MAP.get(word);
-                // System.out.println(comments + "\t" + x);
+               // System.out.println(comments + "\t" + x);
                 context.write(new Text(comments), new Text(x));
             }
         }
     }
-
 
     /**
      * Checking emotion is valid or not
@@ -55,7 +54,6 @@ public class SentimentMapper extends Mapper<LongWritable, Text, Text, Text> {
         String[] parts = line.split("\t");
         if (parts.length == 3) {
             if (parts[2].contains("1")) {
-            	// System.out.println(parts[1]);
                 return true;
             }
             return false;

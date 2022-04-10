@@ -18,8 +18,8 @@ public class SentimentAnalysis {
 		Configuration conf = new Configuration();
         Job job = Job.getInstance(conf, "SentimentAnalysis");
         job.setJarByClass(SentimentAnalysis.class);
-        Path inPath = new Path("hdfs://localhost:9000/user/phamvanvung/project/input/");
-        Path outPath = new Path("hdfs://localhost:9000/user/phamvanvung/project/output/");
+        Path inPath = new Path("hdfs://localhost:9000/user/phamvanvung/project/input/lockdown/us");
+        Path outPath = new Path("hdfs://localhost:9000/user/phamvanvung/project/output/emotion/lockdown/us");
         outPath.getFileSystem(conf).delete(outPath, true);
         job.addCacheFile(new URI("hdfs://localhost:9000/user/phamvanvung/project/references/Emotion.txt"));
         Configuration validationConf = new Configuration(false);
